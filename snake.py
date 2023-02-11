@@ -1,4 +1,5 @@
 import pyxel
+import random
 
 class Snake():
     def __init__(self):
@@ -7,13 +8,18 @@ class Snake():
         self.biasY = 0
         self.length = 1
         self.score = 0
+        self.alive = True
         self.direction = 'right'
-        self.food = [23, 34]
-        pyxel.init(45, 53, title="Snake", fps=10)
+        self.food = [random.randint(0, 44), random.randint(8, 52)]
+        pyxel.init(47, 55, title="Snake", fps=15)
         pyxel.run(self.update, self.draw)
 
     def update(self):        
-        #Change direction and position of head on click
+        self.updateDirection()
+        self.eat()
+        self.updateSnake()
+    
+    def updateDirection(self):
         if self.direction == 'right':
             if pyxel.btn(pyxel.KEY_UP):
                 self.biasY = -1
@@ -51,10 +57,7 @@ class Snake():
             else:
                 self.biasY = 1
 
-        #add segment to snake body when eating food
-        if self.body[0][0] == self.food[0] and self.body[0][1] == self.food[1]:
-            self.length += 1
-
+    def updateSnake(self):
         oldHead = self.body[0]
         newHead = [oldHead[0] + self.biasX, oldHead[1] + self.biasY]
         self.body.insert(0, newHead)
@@ -62,17 +65,26 @@ class Snake():
 
         self.biasX = 0
         self.biasY = 0
-
-        print(self.body)
     
+    def eat(self):
+        if self.body[0][0] == self.food[0] and self.body[0][1] == self.food[1]:
+            self.length += 1
+            self.food[0] = random.randint(0, 44)
+            self.food[1] = random.randint(8, 52)
+    
+    def checkAlive(self):
+        if not (0 <= self.body[0][0] < 44 and 8 < self.body[0][1] < 54):
+            self.alive = False
+
     def draw(self):
-        pyxel.cls(1)
-        pyxel.rect(0,0,45,8,6)
+        pyxel.cls(14)
+        pyxel.rectb(0, 0, 47, 55, 0)
+        pyxel.rect(1, 8, 47, 1, 0)
 
         #Display each item of the snake body
         for segment in self.body:
-            pyxel.rect(segment[0], segment[1], 1, 1, 6)
+            pyxel.rect(segment[0], segment[1], 1, 1, 8)
         
-        pyxel.rect(self.food[0], self.food[1], 1, 1 , 7)
+        pyxel.rect(self.food[0], self.food[1], 1, 1 , 2)
 
 Snake()
