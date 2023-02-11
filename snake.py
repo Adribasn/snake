@@ -3,7 +3,7 @@ import random
 
 class Snake():
     def __init__(self):
-        self.body = [[0, 20]] 
+        self.body = [[1, 20]] 
         self.biasX = 0
         self.biasY = 0
         self.length = 1
@@ -14,10 +14,14 @@ class Snake():
         pyxel.init(47, 55, title="Snake", fps=15)
         pyxel.run(self.update, self.draw)
 
-    def update(self):        
-        self.updateDirection()
-        self.eat()
-        self.updateSnake()
+    def update(self):
+        self.checkAlive()        
+        if self.alive:
+            self.updateDirection()
+            self.eat()
+            self.updateSnake()
+        else:
+            self.reset()
     
     def updateDirection(self):
         if self.direction == 'right':
@@ -75,6 +79,16 @@ class Snake():
     def checkAlive(self):
         if not (0 <= self.body[0][0] < 44 and 8 < self.body[0][1] < 54):
             self.alive = False
+    
+    def reset(self):
+        self.body = [[1, 20]] 
+        self.biasX = 0
+        self.biasY = 0
+        self.length = 1
+        self.score = 0
+        self.alive = True
+        self.direction = 'right'
+        self.food = [random.randint(0, 44), random.randint(8, 52)]
 
     def draw(self):
         pyxel.cls(14)
