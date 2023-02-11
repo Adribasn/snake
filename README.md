@@ -1,4 +1,4 @@
 # Snake
 Snake game made using the Pyxel library in Python.
 
-![Screenshot (13)](https://user-images.githubusercontent.com/68373594/218273439-7ecb13e6-a1f5-43ea-a6e8-5baa62954b9c.png)
+![Screenshot (13)](https://user-images.githubusercontent.com/68373594/218273505-fb07b526-b845-4af7-b9b7-832fb4ecbe9e.png)
